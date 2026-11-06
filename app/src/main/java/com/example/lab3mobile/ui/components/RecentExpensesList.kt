@@ -8,11 +8,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.example.lab3mobile.R
 
 /**
- * Section Header for Recent Expenses list (D3).
+ * Section Header for Recent Expenses list.
  */
 @Composable
 fun RecentExpensesHeader(
@@ -20,11 +22,11 @@ fun RecentExpensesHeader(
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = "Recent Expenses",
+            text = stringResource(id = R.string.recent_expenses),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacing_small)))
     }
 }

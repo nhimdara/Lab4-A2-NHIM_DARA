@@ -1,3 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">lab_3_Nhim_Dara</string>
+    <string name="app_name">Lab4-A2-NHIM_DARA</string>
+    <string name="app_bar_title">Lab 4 - Nhim Dara</string>
+    <string name="this_month_total">This Month\'s Total</string>
+    <string name="transaction_count_single">1 transaction</string>
+    <string name="transaction_count_format">%d transactions</string>
+    <string name="spending_by_category">Spending by Category</string>
+    <string name="recent_expenses">Recent Expenses</string>
+    <string name="empty_expenses_message">No expenses yet</string>
+    <string name="empty_expenses_hint">Tap + to add an expense</string>
+    <string name="delete_expense">Delete</string>
+    <string name="delete_content_description">Delete %s expense</string>
+    <string name="undo">Undo</string>
+    <string name="expense_deleted_message">Deleted %1$s ($%2$s)</string>
+    <string name="expense_deleted_generic">Expense deleted</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="currency_usd">USD</string>
+    <string name="currency_khr">KHR</string>
+    <string name="currency_symbol_usd">$</string>
+    <string name="currency_symbol_khr">៛</string>
+
+    <!-- Categories -->
+    <string name="category_shopping">Shopping</string>
+    <string name="category_food_drink">Food &amp; Drink</string>
+    <string name="category_transport">Transport</string>
+    <string name="category_bills">Bills &amp; Utilities</string>
+    <string name="category_entertainment">Entertainment</string>
+
+    <!-- Sample Remarks -->
+    <string name="sample_remark_dinner">Dinner with friends</string>
+    <string name="sample_remark_coffee">Iced latte &amp; bakery snack</string>
+    <string name="sample_remark_grab">Grab ride to campus</string>
+    <string name="sample_remark_shopping">New sneakers &amp; socks</string>
+    <string name="sample_remark_wifi">Monthly Wi-Fi bill</string>
+    <string name="sample_remark_groceries">Groceries for the week</string>
+    <string name="sample_remark_monitor">Monitor desk arm</string>
+    <string name="sample_remark_movie">Cinema movie ticket</string>
+    <string name="sample_remark_bus">Bus fare</string>
+    <string name="sample_remark_tuktuk">TukTuk ride to cafe</string>
+    <string name="sample_remark_books">Books and stationery</string>
+    <string name="sample_remark_streaming">Online streaming subscription</string>
+    <string name="sample_remark_lunch">Lunch buffet with team</string>
+    <string name="sample_remark_phone">Mobile phone top-up</string>
 </resources>

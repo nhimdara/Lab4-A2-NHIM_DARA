@@ -18,56 +18,59 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.example.lab3mobile.R
+import com.example.lab3mobile.model.getCategoryStringRes
 import java.util.Locale
 
 /**
- * Reusable Composable 2: Spending by Category (D2).
- * Displays each category with its total amount.
- * Bigger spending looks bigger via proportional bar widths and scaling typography,
- * built using Column, Row, Box, and Modifiers as per lab requirements.
+ * Required component: Spending by Category.
+ * Shows each category with its amount, dynamically worked out from the list.
+ * Bigger spendings have wider bars.
+ * Strictly uses Theme color roles, Typography scale, Dimens, and String resources.
  */
 @Composable
 fun CategorySpendingView(
     categoryTotals: Map<String, Double>,
-    modifier: Modifier = Modifier,
-    currency: String = "$"
+    modifier: Modifier = Modifier
 ) {
     val maxSpend = categoryTotals.values.maxOrNull() ?: 1.0
     val totalSpend = categoryTotals.values.sum().coerceAtLeast(1.0)
 
-    // Color palette for different categories
-    val categoryColors = listOf(
-        Color(0xFF673AB7), // Deep Purple
-        Color(0xFF2196F3), // Blue
-        Color(0xFF009688), // Teal
-        Color(0xFFFF9800), // Orange
-        Color(0xFFE91E63)  // Pink
+    // Bar colors strictly derived from the Material 3 Theme color roles
+    val barColors = listOf(
+        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.secondary,
+        MaterialTheme.colorScheme.tertiary,
+        MaterialTheme.colorScheme.primaryContainer,
+        MaterialTheme.colorScheme.secondaryContainer
     )
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_medium)),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = dimensionResource(id = R.dimen.card_elevation)
+        )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensionResource(id = R.dimen.spacing_normal))
         ) {
             Text(
-                text = "Spending by Category",
+                text = stringResource(id = R.string.spending_by_category),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacing_medium)))
 
             // Sort categories by highest spend first
             val sortedCategories = categoryTotals.entries.sortedByDescending { it.value }
@@ -75,14 +78,14 @@ fun CategorySpendingView(
             sortedCategories.forEachIndexed { index, entry ->
                 val categoryName = entry.key
                 val categoryAmount = entry.value
-                val fraction = (categoryAmount / maxSpend).toFloat().coerceIn(0.05f, 1.0f)
+                val fraction = (categoryAmount / maxSpend).toFloat().coerceIn(0.06f, 1.0f)
                 val percentage = (categoryAmount / totalSpend * 100).toInt()
-                val barColor = categoryColors[index % categoryColors.size]
+                val barColor = barColors[index % barColors.size]
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 6.dp)
+                        .padding(vertical = dimensionResource(id = R.dimen.spacing_xs))
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -90,35 +93,35 @@ fun CategorySpendingView(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = categoryName,
+                            text = stringResource(id = getCategoryStringRes(categoryName)),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = "$currency${String.format(Locale.US, "%.2f", categoryAmount)} ($percentage%)",
+                            text = "${stringResource(id = R.string.currency_symbol_usd)}${String.format(Locale.US, "%.2f", categoryAmount)} ($percentage%)",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacing_xs)))
 
                     // Visual bar representation where bigger spending occupies more width
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(10.dp)
-                            .clip(RoundedCornerShape(5.dp))
-                            .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
+                            .height(dimensionResource(id = R.dimen.bar_height))
+                            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.bar_corner)))
+                            .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.12f))
                     ) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth(fraction)
-                                .height(10.dp)
-                                .clip(RoundedCornerShape(5.dp))
-                                .background(barColor)
+                                .height(dimensionResource(id = R.dimen.bar_height))
+                                .clip(RoundedCornerShape(dimensionResource(id = R.dimen.bar_corner)))
+                            .background(barColor)
                         )
                     }
                 }

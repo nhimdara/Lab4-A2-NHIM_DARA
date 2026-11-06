@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lab4-A2-NHIM_DARA</string>
+    <string name="app_bar_title">ឡាប ៤ - ញឹម តារា</string>
+    <string name="this_month_total">សរុបប្រចាំខែនេះ</string>
+    <string name="transaction_count_single">១ ប្រតិបត្តិការ</string>
+    <string name="transaction_count_format">%d ប្រតិបត្តិការ</string>
+    <string name="spending_by_category">ការចំណាយតាមប្រភេទ</string>
+    <string name="recent_expenses">ការចំណាយថ្មីៗ</string>
+    <string name="empty_expenses_message">មិនទាន់មានការចំណាយនៅឡើយទេ</string>
+    <string name="empty_expenses_hint">ចុចសញ្ញា + ដើម្បីបន្ថែមការចំណាយ</string>
+    <string name="delete_expense">លុប</string>
+    <string name="delete_content_description">លុបការចំណាយ %s</string>
+    <string name="undo">មិនធ្វើវិញ</string>
+    <string name="expense_deleted_message">បានលុប %1$s ($%2$s)</string>
+    <string name="expense_deleted_generic">បានលុបការចំណាយ</string>
+    <string name="add_expense">បន្ថែមការចំណាយ</string>
+    <string name="currency_usd">USD</string>
+    <string name="currency_khr">KHR</string>
+    <string name="currency_symbol_usd">$</string>
+    <string name="currency_symbol_khr">៛</string>
+
+    <!-- Categories in Khmer -->
+    <string name="category_shopping">ការទិញទំនិញ</string>
+    <string name="category_food_drink">ម្ហូប និងភេសជ្ជៈ</string>
+    <string name="category_transport">ការធ្វើដំណើរ</string>
+    <string name="category_bills">វិក្កយបត្រ និងទឹកភ្លើង</string>
+    <string name="category_entertainment">ការកម្សាន្ត</string>
+
+    <!-- Sample Remarks in Khmer -->
+    <string name="sample_remark_dinner">ញ៉ាំបាយជាមួយមិត្តភក្តិ</string>
+    <string name="sample_remark_coffee">កាហ្វេ និងនំញ៉ាំពេលរសៀល</string>
+    <string name="sample_remark_grab">ជិះ Grab ទៅសាលា</string>
+    <string name="sample_remark_shopping">ស្បែកជើង និងស្រោមជើងថ្មី</string>
+    <string name="sample_remark_wifi">បង់ថ្លៃអ៊ីនធឺណិតប្រចាំខែ</string>
+    <string name="sample_remark_groceries">ទិញម្ហូបប្រចាំសប្តាហ៍</string>
+    <string name="sample_remark_monitor">ជើងទ្រអេក្រង់កុំព្យូទ័រ</string>
+    <string name="sample_remark_movie">សំបុត្រកុនមើលកុន</string>
+    <string name="sample_remark_bus">សំបុត្រឡានក្រុង</string>
+    <string name="sample_remark_tuktuk">ជិះកង់បីទៅហាងកាហ្វេ</string>
+    <string name="sample_remark_books">សៀវភៅ និងសម្ភារៈសិក្សា</string>
+    <string name="sample_remark_streaming">បង់ថ្លៃសេវាកម្សាន្តអនឡាញ</string>
+    <string name="sample_remark_lunch">អាហារថ្ងៃត្រង់ជាមួយក្រុមការងារ</string>
+    <string name="sample_remark_phone">បញ្ចូលលុយទូរស័ព្ទ</string>
+</resources>
+

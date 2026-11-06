@@ -15,34 +15,37 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.lab3mobile.R
 import java.util.Locale
 
 /**
- * Reusable Composable 1: Displays this month's total spending summary (D1).
- * Calculated dynamically from the expense list.
+ * Required component: This Month's Total card.
+ * Total amount worked out directly from the expense list.
+ * All colors, text styles, and dimensions come strictly from theme and resource files.
  */
 @Composable
 fun TotalSummaryCard(
     totalAmount: Double,
     expenseCount: Int,
-    modifier: Modifier = Modifier,
-    currency: String = "$"
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_large)),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = dimensionResource(id = R.dimen.card_elevation_large)
+        )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(dimensionResource(id = R.dimen.spacing_large))
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -50,24 +53,26 @@ fun TotalSummaryCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "This Month's Total",
+                    text = stringResource(id = R.string.this_month_total),
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
-                    fontWeight = FontWeight.Medium
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Text(
-                    text = "$expenseCount transactions",
+                    text = if (expenseCount == 1) {
+                        stringResource(id = R.string.transaction_count_single)
+                    } else {
+                        stringResource(id = R.string.transaction_count_format, expenseCount)
+                    },
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacing_medium)))
 
             Text(
-                text = "$currency${String.format(Locale.US, "%.2f", totalAmount)}",
-                fontSize = 34.sp,
-                fontWeight = FontWeight.Bold,
+                text = "${stringResource(id = R.string.currency_symbol_usd)}${String.format(Locale.US, "%.2f", totalAmount)}",
+                style = MaterialTheme.typography.displaySmall,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }

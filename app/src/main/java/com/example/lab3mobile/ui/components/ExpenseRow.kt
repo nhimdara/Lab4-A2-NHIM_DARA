@@ -13,57 +13,76 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.lab3mobile.R
 import com.example.lab3mobile.model.Expense
-import com.example.lab3mobile.ui.theme.Lab3MobileTheme
+import com.example.lab3mobile.model.getCategoryStringRes
+import com.example.lab3mobile.model.getRemarkStringRes
 import java.util.Locale
 
 /**
- * Reusable Composable: ExpenseRow.
- * Required by Part 3: Takes an Expense as a parameter.
- * Displays amount, category, date (D3) and remark (if available).
+ * Required component: ExpenseRow.
+ * Displays amount, category, date, remark, and a Delete button.
+ * All styling strictly adheres to theme color roles and typography scale.
  */
 @Composable
 fun ExpenseRow(
     expense: Expense,
+    onDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Dynamic color indicator based on category
-    val categoryColor = when (expense.category.lowercase(Locale.ROOT)) {
-        "food & drink", "food" -> Color(0xFF4CAF50)
-        "transport" -> Color(0xFF2196F3)
-        "shopping" -> Color(0xFF9C27B0)
-        "bills & utilities", "bills" -> Color(0xFFFF9800)
-        else -> Color(0xFF607D8B)
+    // Theme-derived badge colors based on category
+    val badgeContainerColor = when (expense.category.lowercase(Locale.ROOT)) {
+        "shopping" -> MaterialTheme.colorScheme.primaryContainer
+        "food & drink", "food" -> MaterialTheme.colorScheme.secondaryContainer
+        "transport" -> MaterialTheme.colorScheme.tertiaryContainer
+        "bills & utilities", "bills" -> MaterialTheme.colorScheme.surfaceVariant
+        else -> MaterialTheme.colorScheme.errorContainer
+    }
+
+    val badgeContentColor = when (expense.category.lowercase(Locale.ROOT)) {
+        "shopping" -> MaterialTheme.colorScheme.onPrimaryContainer
+        "food & drink", "food" -> MaterialTheme.colorScheme.onSecondaryContainer
+        "transport" -> MaterialTheme.colorScheme.onTertiaryContainer
+        "bills & utilities", "bills" -> MaterialTheme.colorScheme.onSurfaceVariant
+        else -> MaterialTheme.colorScheme.onErrorContainer
     }
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_small)),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = dimensionResource(id = R.dimen.card_elevation)
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.spacing_normal),
+                    vertical = dimensionResource(id = R.dimen.spacing_medium)
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            // Category Icon & Details
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.weight(1f)
@@ -71,77 +90,79 @@ fun ExpenseRow(
                 // Category initial avatar badge
                 Box(
                     modifier = Modifier
-                        .size(42.dp)
+                        .size(dimensionResource(id = R.dimen.avatar_size))
                         .clip(CircleShape)
-                        .background(categoryColor.copy(alpha = 0.15f)),
+                        .background(badgeContainerColor),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = expense.category.take(1).uppercase(),
+                        text = expense.category.take(1).uppercase(Locale.ROOT),
+                        style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = categoryColor,
-                        fontSize = 18.sp
+                        color = badgeContentColor
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.spacing_medium)))
 
                 Column {
                     Text(
-                        text = expense.category,
+                        text = stringResource(id = getCategoryStringRes(expense.category)),
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
-                    expense.remark?.let { remark ->
+                    expense.remark?.let { remarkText ->
+                        val localizedRemarkRes = getRemarkStringRes(remarkText)
+                        val displayedRemark = if (localizedRemarkRes != null) {
+                            stringResource(id = localizedRemarkRes)
+                        } else {
+                            remarkText
+                        }
                         Text(
-                            text = remark,
+                            text = displayedRemark,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(2.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacing_xxs)))
 
                     Text(
-                        text = expense.date,
+                        text = expense.date.toString(),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.outline
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.spacing_small)))
 
-            // Amount display
-            Text(
-                text = "-${expense.currency}${String.format(Locale.US, "%.2f", expense.amount)}",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.error
-            )
+            // Amount and Delete button
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "-${stringResource(id = R.string.currency_symbol_usd)}${String.format(Locale.US, "%.2f", expense.amount)}",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.error
+                )
+
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.spacing_xs)))
+
+                IconButton(onClick = onDelete) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = stringResource(
+                            id = R.string.delete_content_description,
+                            stringResource(id = getCategoryStringRes(expense.category))
+                        ),
+                        tint = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
         }
-    }
-}
-
-/**
- * Required @Preview for ExpenseRow (Part 3)
- */
-@Preview(showBackground = true)
-@Composable
-fun ExpenseRowPreview() {
-    Lab3MobileTheme {
-        ExpenseRow(
-            expense = Expense(
-                id = "1",
-                amount = 45.50,
-                currency = "$",
-                category = "Food & Drink",
-                date = "2025-02-18",
-                remark = "Dinner with friends"
-            ),
-            modifier = Modifier.padding(16.dp)
-        )
     }
 }
